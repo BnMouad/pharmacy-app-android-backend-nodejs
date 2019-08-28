@@ -1,14 +1,34 @@
-const http = require('http');
 
-// Create an instance of the http server to handle HTTP requests
-let app = http.createServer((req, res) => {
-    // Set a response type of plain text for the response
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+var express = require("express");
+var mysql = require("mysql");
+var app = express();
+app.use(express.static('public'));
 
-    // Send back a response and end the connection
-    res.end('Hello World!\n');
+
+var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database:'pharma_db'
+});
+connection.connect();
+
+app.get('/getusers',function(req,res){  
+    var query = "select * from users ";
+    connection.query(query,function(error,results){
+    if (error) throw error;
+    res.send(JSON.stringify(results));
+
+})
 });
 
-// Start the server on port 3000
-app.listen(3000, '127.0.0.1');
+
+var server = app.listen(3000,function(){
+    var host = server.address().address
+    var port = server.address().port
+});
 console.log('Node server running on port 3000');
+
+
+
+
