@@ -17,20 +17,37 @@ function sendTwilioMessage (client,from,to,body){
     .then(message => console.log("here the message id:"+message.sid));
 }
 
-module.exports= function addUser ( numero_social,nom,prenom,adresse,telephone)
+module.exports= 
 {
+  addUser : function  ( numero_social,nom,prenom,adresse,telephone)
+  {
   var password = generator.generate({
       length: 10,
       numbers: true
   });
-  console.log(password);
+  
   
   sendTwilioMessage(client,TWILIO_NUMBER,telephone,password)
-  /*var query = ' INSERT INTO `users` (`numero_social`, `nom`, `prenom`, `adresse`, `telephone`, `password`) VALUES ('+numero_social+','+nom+', '+prenom+','+adresse+', '+telephone+', '+password+')';*/
+
   var query = " INSERT INTO users (`numero_social`, `nom`, `prenom`, `adresse`, `telephone`, `password`) VALUES ('"+numero_social+"','"+nom+"','"+prenom+"','"+adresse+"','"+telephone+"','"+password+"')";
+
   Connection.connection.query(query, function(error, results) {
     if (error) throw error;
-    console.log(results);
+    return password;
   });
   
+},
+
+updatePassword :  function (user_id,password){ 
+
+    var query = " UPDATE `users` SET `password` = '"+password+"' WHERE `users`.`numero_social` = '"+user_id+"'"
+    Connection.connection.query(query, function(error, results) {
+      if (error) throw error;
+      console.log(JSON.stringify(results));
+    });
+ 
+
+  
+}
+
 }

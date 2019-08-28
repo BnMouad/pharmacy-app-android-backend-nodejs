@@ -8,6 +8,7 @@ Connection.app = express();
 Connection.app.use(express.static("public"));
 var bodyparser = require("body-parser");
 Connection.app.use(bodyparser.json());
+Connection.app.use(bodyparser.urlencoded());
 
 //database connection
 Connection.connection = mysql.createConnection({
@@ -16,6 +17,8 @@ Connection.connection = mysql.createConnection({
   password: "",
   database: "pharma_db"
 });
+
+
 Connection.connection.connect();
 
 // Server creation
