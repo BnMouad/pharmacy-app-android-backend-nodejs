@@ -38,11 +38,10 @@ module.exports=
   },
 
   updatePassword :  function (user_id,password){ 
-
-    var query = " UPDATE `users` SET `password` = '"+password+"' WHERE `users`.`numero_social` = '"+user_id+"'"
+    // this function is called on the first update of the password , chnages the is_first_auth too 
+    var query = " UPDATE `users` SET `password` = '"+password+"' , `is_first_auth` = 0 WHERE `users`.`numero_social` = '"+user_id+"'"
       Connection.connection.query(query, function(error, results) {
         if (error) throw error;
-        console.log(JSON.stringify(results));
     });
   }
 

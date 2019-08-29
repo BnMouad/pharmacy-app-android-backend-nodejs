@@ -1,11 +1,12 @@
 const {Connection} = require ('./connection');
 const signup = require('./signup');
 const login = require('./login')
+// globale variable for to check the authentification
 global.isLoggedIn=false; 
 
 // get all the user 
 Connection.app.get("/api/getusers", function(req, res) {
-  console.log("I'm seeing is logged in from the get user:"+isLoggedIn)
+
   var query = "select * from users ";
   Connection.connection.query(query, function(error, results) {
     if (error) throw error;
@@ -34,6 +35,7 @@ Connection.app.get("/api/logout", function(req, res) {
       message: "logged out"
     })
   }else{
+    // change it later to something else 
     res.redirect('/')
   }
 });

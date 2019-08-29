@@ -14,7 +14,6 @@ module.exports=
                 status: 401
             }        
             isLoggedIn=true;
-            console.log("I'm seeing is logged in from the loggin:"+isLoggedIn)
             callback(response)    
         } else {
             var response= {
