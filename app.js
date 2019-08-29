@@ -2,6 +2,7 @@ const {Connection} = require ('./connection');
 const signup = require('./signup');
 const login = require('./login')
 const Pharmacy = require('./pharmacy')
+const Order = require('./orders')
 // globale variable for to check the authentification
 global.isLoggedIn=false; 
 
@@ -23,11 +24,10 @@ Connection.app.get('/api/getuser/:id',function(req,res){
 });
 // signup 
 Connection.app.post("/api/signup", function(req, res) {
-  signup.addUser(req.body.numero_social,req.body.nom,req.body.prenom,req.body.adresse,req.body.telephone)
-  res.send({
-    message: "user added"
-  });
-  res.send(JSON.stringify(req.body));
+  signup.addUser(req.body.numero_social,req.body.nom,req.body.prenom,req.body.adresse,req.body.telephone,(results)=>{
+    res.send(results)
+  })
+  
 });
 //login 
 Connection.app.post("/api/login", function(req, res) {
@@ -83,4 +83,16 @@ Connection.app.get('/api/getNearByPharmacies/:lat/:lng',function(req,res){
   Pharmacy.getNearByPharmacies(req.params.lat,req.params.lng,(results)=>{
     res.send(results);
   });
+});
+//get all orders of a user 
+Connection.app.get('/api/getAllOrdersOfUser/:id',function(req,res){ 
+  Order.getAllOrdersOfUser(req.params.id,(results)=>{
+    res.send(results);
+  });
+});
+// create an order 
+Connection.app.post("/api/createOrder", function(req, res) {
+  Order.creatOrder(req.body.user_id,req.body.pharmacy_id,(results)=>{
+    res.send(results)
+  })
 });
