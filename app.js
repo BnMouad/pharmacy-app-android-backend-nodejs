@@ -60,6 +60,18 @@ Connection.app.post("/api/updatePassword", function(req, res) {
    });
   }
 });
+// get all pharmacies 
+Connection.app.get('/api/getAllPharmacies',function(req,res){  
+  Pharmacy.getAllPharmacies((results)=>{
+    res.send(results)
+  })
+});
+// get pharmacies by wilaya
+Connection.app.get('/api/getPharmaciesByWilaya/:WilayaId',function(req,res){  
+  Pharmacy.getPharmaciesByWilaya(req.params.WilayaId,(results)=>{
+    res.send(results)
+  })
+});
 // get pharmacy details 
 Connection.app.get('/api/getpharmacy/:id',function(req,res){  
   Pharmacy.getPharmacy(req.params.id,(results)=>{

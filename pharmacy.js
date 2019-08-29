@@ -3,12 +3,26 @@ const {Connection} = require ('./connection');
 
 module.exports= 
 {
-    getPharmacy: function (id,callback){
+    getAllPharmacies : function (callback){
+        var query = "select * from pharmacies";
+        Connection.connection.query(query,function(error,results){
+        if (error) throw error;        
+        callback(results);
+        });
+    },
+    getPharmaciesByWilaya : function (wilayaId,callback){
+        var query = "select * from pharmacies where wilaya_id ='"+wilayaId+"'";
+        Connection.connection.query(query,function(error,results){
+        if (error) throw error;        
+        callback(results);
+        });
+    },
+    getPharmacy : function (id,callback){
         var query = "select * from pharmacies where id ='"+id+"'";
         Connection.connection.query(query,function(error,results){
         if (error) throw error;
         callback(results);
-  })
+        });
     },
     getNearByPharmacies : function  ( lat,lng,callback){
         var distance = 10 ; // search far by distance in KM 
