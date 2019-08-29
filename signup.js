@@ -6,6 +6,7 @@ const client = require('twilio')(accountSid, authToken);
 const TWILIO_NUMBER=+12074075156;
 var generator = require('generate-password');
 
+//send a message with twilio api
 function sendTwilioMessage (client,from,to,body){
    client.messages
     .create({
@@ -17,37 +18,32 @@ function sendTwilioMessage (client,from,to,body){
     .then(message => console.log("here the message id:"+message.sid));
 }
 
+//exports functions to use them globally 
 module.exports= 
 {
+  //add user in the database function 
   addUser : function  ( numero_social,nom,prenom,adresse,telephone)
   {
-  var password = generator.generate({
+    // generate a random password using generate-password
+    var password = generator.generate({
       length: 10,
       numbers: true
-  });
-  
-  
-  sendTwilioMessage(client,TWILIO_NUMBER,telephone,password)
-
-  var query = " INSERT INTO users (`numero_social`, `nom`, `prenom`, `adresse`, `telephone`, `password`) VALUES ('"+numero_social+"','"+nom+"','"+prenom+"','"+adresse+"','"+telephone+"','"+password+"')";
-
-  Connection.connection.query(query, function(error, results) {
-    if (error) throw error;
-    return password;
-  });
-  
-},
-
-updatePassword :  function (user_id,password){ 
-
-    var query = " UPDATE `users` SET `password` = '"+password+"' WHERE `users`.`numero_social` = '"+user_id+"'"
+    });
+    var query = " INSERT INTO users (`numero_social`, `nom`, `prenom`, `adresse`, `telephone`, `password`) VALUES ('"+numero_social+"','"+nom+"','"+prenom+"','"+adresse+"','"+telephone+"','"+password+"')";
     Connection.connection.query(query, function(error, results) {
       if (error) throw error;
-      console.log(JSON.stringify(results));
+      return password;
     });
- 
+    sendTwilioMessage(client,TWILIO_NUMBER,telephone,password)
+  },
 
-  
-}
+  updatePassword :  function (user_id,password){ 
+
+    var query = " UPDATE `users` SET `password` = '"+password+"' WHERE `users`.`numero_social` = '"+user_id+"'"
+      Connection.connection.query(query, function(error, results) {
+        if (error) throw error;
+        console.log(JSON.stringify(results));
+    });
+  }
 
 }
