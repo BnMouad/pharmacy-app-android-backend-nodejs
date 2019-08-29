@@ -1,6 +1,6 @@
 const {Connection} = require ('./connection');
 const signup = require('./signup');
-
+const login = require('./login')
 
 
 // Rest service getting all the users
@@ -16,10 +16,19 @@ Connection.app.get("/api/getusers", function(req, res) {
 
 Connection.app.post("/api/signup", function(req, res) {
 
-  signup.addUser(req.body.nemuro_social,req.body.nom,req.body.prenom,req.body.adresse,req.body.telephone)
+  signup.addUser(req.body.numero_social,req.body.nom,req.body.prenom,req.body.adresse,req.body.telephone)
   res.send("user added");
   res.send(JSON.stringify(req.body));
 });
+
+Connection.app.post("/api/login", function(req, res) {
+  login.login(req.body.telephone,req.body.password,(loginResponse)=>{
+    res.send(loginResponse);
+  })
+
+  
+});
+
 
 Connection.app.post("/api/updatePassword", function(req, res) {
   
