@@ -1,6 +1,7 @@
 const {Connection} = require ('./connection');
 const signup = require('./signup');
 const login = require('./login')
+const Pharmacy = require('./pharmacy')
 // globale variable for to check the authentification
 global.isLoggedIn=false; 
 
@@ -60,4 +61,11 @@ Connection.app.get('/api/getuser/:id',function(req,res){
   if (error) throw error;
   res.send(JSON.stringify(results[0]));
   })
+});
+
+
+Connection.app.get('/api/getNearByPharmacies/:lat/:lng',function(req,res){ 
+  Pharmacy.getNearByPharmacies(req.params.lat,req.params.lng,(results)=>{
+    res.send(results);
+  });
 });
