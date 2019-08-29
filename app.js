@@ -7,12 +7,19 @@ global.isLoggedIn=false;
 
 // get all the user 
 Connection.app.get("/api/getusers", function(req, res) {
-
   var query = "select * from users ";
   Connection.connection.query(query, function(error, results) {
     if (error) throw error;
     res.send(JSON.stringify(results));
   });
+});
+// get a specific user with an id 
+Connection.app.get('/api/getuser/:id',function(req,res){  
+  var query = "select * from users where numero_social ='"+req.params.id+"'";
+  Connection.connection.query(query,function(error,results){
+  if (error) throw error;
+  res.send(JSON.stringify(results[0]));
+  })
 });
 // signup 
 Connection.app.post("/api/signup", function(req, res) {
@@ -40,7 +47,6 @@ Connection.app.get("/api/logout", function(req, res) {
     res.redirect('/')
   }
 });
-
 //update passowrd 
 Connection.app.post("/api/updatePassword", function(req, res) {
   if(req.body.password===req.body.c_password){
@@ -54,16 +60,13 @@ Connection.app.post("/api/updatePassword", function(req, res) {
    });
   }
 });
-// get a specific user with an id 
-Connection.app.get('/api/getuser/:id',function(req,res){  
-  var query = "select * from users where numero_social ='"+req.params.id+"'";
-  Connection.connection.query(query,function(error,results){
-  if (error) throw error;
-  res.send(JSON.stringify(results[0]));
+// get pharmacy details 
+Connection.app.get('/api/getpharmacy/:id',function(req,res){  
+  Pharmacy.getPharmacy(req.params.id,(results)=>{
+    res.send(results)
   })
 });
-
-
+// get a nearby pharmacy 
 Connection.app.get('/api/getNearByPharmacies/:lat/:lng',function(req,res){ 
   Pharmacy.getNearByPharmacies(req.params.lat,req.params.lng,(results)=>{
     res.send(results);
