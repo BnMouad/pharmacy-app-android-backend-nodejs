@@ -49,12 +49,15 @@ Connection.app.get("/api/logout", function(req, res) {
 });
 //update passowrd 
 Connection.app.post("/api/updatePassword", function(req, res) {
+  console.log(req.body)
   if(req.body.password===req.body.c_password){
     signup.updatePassword(req.body.user_id,req.body.password)
-    res.send("password updated");
-    res.send(JSON.stringify(req.body));
+     res.status(200).send({
+      message: 'password updated',
+      status: 200
+   });
   } else {
-    return res.status(400).send({
+    res.status(200).send({
       message: 'passwords dont match',
       status: 400
    });

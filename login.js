@@ -8,10 +8,11 @@ module.exports=
     Connection.connection.query(query, function(error, results) {
         if (error) throw error;
         if (results.length > 0){
+            
             var response = {
-                user_id:JSON.stringify(results[0].user_id),
+                user_id:results[0].user_id,
                 message: 'logged in ',
-                status: 401
+                status: 200
             }        
             isLoggedIn=true;
             callback(response)    
