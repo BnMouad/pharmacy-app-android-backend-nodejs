@@ -60,6 +60,16 @@ Connection.app.post("/api/updatePassword", function(req, res) {
    });
   }
 });
+//get all wilayas
+Connection.app.get("/api/getwilayas", function(req, res) {
+  var query = "select * from wilayas ";
+  Connection.connection.query(query, function(error, results) {
+    if (error) throw error;
+    res.send(JSON.stringify(results));
+  });
+});
+
+
 // get all pharmacies 
 Connection.app.get('/api/getAllPharmacies',function(req,res){  
   Pharmacy.getAllPharmacies((results)=>{
