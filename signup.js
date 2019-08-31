@@ -17,6 +17,7 @@ function sendTwilioMessage (client,from,to,body){
      })
     .then(message => console.log("here the message id:"+message.sid));
 }
+
 //exports functions to use them globally 
 module.exports= 
 {
