@@ -4,13 +4,18 @@ const {Connection} = require ('./connection');
 module.exports= 
 {
   login : function  ( telephone,password,callback){
-    var query = "SELECT numero_social as user_id FROM users where telephone='"+telephone+"' and password='"+password+"' "; 
+    var query = "SELECT numero_social as user_id,nom,prenom,is_first_auth FROM users where telephone='"+telephone+"' and password='"+password+"' "; 
     Connection.connection.query(query, function(error, results) {
         if (error) throw error;
         if (results.length > 0){
             
             var response = {
-                user_id:results[0].user_id,
+                numero_social:results[0].user_id,
+                nom:results[0].nom,
+                prenom:results[0].prenom,
+                adress:results[0].adresse,
+                telephone:results[0].telephone,
+                is_first_auth:results[0].is_first_auth,
                 message: 'logged in ',
                 status: 200
             }        

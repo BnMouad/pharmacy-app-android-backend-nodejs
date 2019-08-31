@@ -37,20 +37,24 @@ Connection.app.post("/api/login", function(req, res) {
 });
 //logout
 Connection.app.get("/api/logout", function(req, res) {
+  console.log("hello some one visited me ")
   if(isLoggedIn) {
     isLoggedIn =false ; 
     res.send({
+      status : 200, 
       message: "logged out"
     })
   }else{
     // change it later to something else 
-    res.redirect('/')
+    res.send({
+      status : 201, // my status for u r not logged in to log out 
+      message : "you can access cuase your not logged in"
+    })
   }
 });
 //update passowrd 
-Connection.app.post("/api/updatePassword", function(req, res) {
-  console.log(req.body)
-  if(req.body.password===req.body.c_password){
+Connection.app.post("/api/updatePassword", function(req, res) { 
+  if(req.body.password===req.body.c_password){  
     signup.updatePassword(req.body.user_id,req.body.password)
      res.status(200).send({
       message: 'password updated',
