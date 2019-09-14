@@ -127,17 +127,31 @@ Connection.app.get("/api/getNearByPharmacies/:lat/:lng", function(req, res) {
     res.send(results);
   });
 });
+
 //get all orders of a user
 Connection.app.get("/api/getAllOrdersOfUser/:id", function(req, res) {
   Order.getAllOrdersOfUser(req.params.id, results => {
     res.send(results);
   });
 });
-// create an order
-Connection.app.post("/api/createOrder", function(req, res) {
-  Order.creatOrder(req.body.user_id, req.body.pharmacy_id, results => {
+
+//get all orders of a user with the name of pharmacies
+Connection.app.get("/api/getOrdersByUser/:idUser", function(req, res) {
+  Order.getOrdersByUser(req.params.idUser, results => {
     res.send(results);
   });
+});
+
+// create an order
+Connection.app.post("/api/createOrder", function(req, res) {
+  Order.creatOrder(
+    req.body.user_id,
+    req.body.pharmacy_id,
+    req.body.image_path,
+    results => {
+      res.send(results);
+    }
+  );
 });
 
 //uploading image
@@ -149,7 +163,7 @@ var fs = require("fs");
 
 const upload = multer({
   dest: "images/",
-  limits: { fileSize: 10000000, files: 1 },
+  limits: { fileSize: 1000000000, files: 1 },
   fileFilter: (req, file, callback) => {
     if (!file.originalname.match(/\.(jpg|jpeg)$/)) {
       return callback(new Error("Only Images are allowed !"), false);
